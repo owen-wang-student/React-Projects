@@ -1,34 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react' // tracks data and properties between function calls 
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const[time, setTime] = useState(0) // current state, update state, initial state 
+  const[running, setRunning] = useState(false)
+
+  // used to perform side effects (calculations that don't effect output value) 
+  // callback - function with side effect logic 
+  // dependency - array of dependencies that runs callback only if dependencies change 
+  useEffect(() => {
+    let interval
+    if(running){
+      interval = setInterval(() => {
+        setTime((prevTime) => prevTime + 10)
+      }, 10)
+    }else if(!running){
+      clearInterval(interval);
+    }
+    return(() => clearInterval(interval));
+  }, [running])
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className='flex flex-col items-center justify-center py-8'>
+      <h1 className='text-2xl font-semibold'>StopWatch App</h1>
+      <div className='text-xl fonr semibold py-4'>
+        <span>{("0" + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
+        <span>{("0" + Math.floor((time / 1000) % 60)).slice(-2)}:</span>
+        <span>{("0" + ((time / 10) % 100)).slice(-2)}</span>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+
+      <div className='w-1/3 max-2-sm flex flex-row justify-evenly'>
+          {running ? (
+            <button className='border rounded-lg py-1 px-3.5' onClick={() => {setRunning(false)}}>Stop</button>
+          ): (
+            <button className='border rounded-lg py-1 px-3.0'onClick={() => {setRunning(true)}}>Start</button>
+          )}
+          <button className='border rounded-lg py-1 px-2.5' onClick={() => {setTime(0)}}>Reset</button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>   
   )
 }
 
