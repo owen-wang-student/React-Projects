@@ -9,8 +9,8 @@ function App() {
   console.log(taskList);
 
   return (
-    <div>
-      <h1>To-Do Board</h1>
+    <div className="flex flex-col items-center justify-center py-8 gap-4">
+      <h1 className="text-xl font-semibold">To-Do Board</h1>
       <Input taskList={taskList} setTaskList={setTaskList}/> 
       <div>
         {taskList.map((task, index) => 
