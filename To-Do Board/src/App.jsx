@@ -1,17 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react"
+
+import { Input } from "./components/input"
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [taskList, setTaskList] = useState([])
+
+  console.log(taskList);
 
   return (
-    <>
-      <h1 className="grid grid-cols-3">
-        Hello world!
-      </h1>
-    </>
+    <div className="flex flex-col items-center justify-center py-8 gap-4">
+      <h1 className="text-xl font-semibold">To-Do Board</h1>
+      <Input taskList={taskList} setTaskList={setTaskList}/> 
+
+      <div>
+        {taskList.map((task, index) => 
+          <li key={index}>{task}</li>
+        )}
+      </div>
+      
+    </div>
   )
 }
 
