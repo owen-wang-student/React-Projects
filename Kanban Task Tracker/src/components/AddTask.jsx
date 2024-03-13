@@ -6,8 +6,6 @@ export const AddTask = ({taskList1, setTaskList}) => {
     const [projectName, setProjectName] = useState("")
     const [taskDescription, setTaskDescription] = useState("")
 
-    console.log(taskList1)
-
     const handleAdd = (e) => {
         e.preventDefault()
         setTaskList([...taskList1, {projectName, taskDescription}])
