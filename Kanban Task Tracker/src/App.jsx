@@ -1,6 +1,10 @@
+import { useState } from 'react'
 import { AddTask } from './components/AddTask'
 
 function App() {
+
+  const [taskList, setTaskList] = useState([])
+
   return (
     <>
       <h1 className='text-2xl font-bold py-4 pl-6'>The Task Tracker</h1>
