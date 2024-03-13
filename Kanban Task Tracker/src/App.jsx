@@ -10,7 +10,7 @@ function App() {
       <h1 className='text-2xl font-bold py-4 pl-6'>The Task Tracker</h1>
       <div className='flex flex-row items-center'>
         <p className='text-xl pl-6'>Click</p>
-        <AddTask />
+        <AddTask taskList1={taskList} setTaskList={setTaskList}/>
         <p className='text-xl'>to add a new task</p>
       </div>
 
