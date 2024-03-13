@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { AddTask } from './components/AddTask'
+import { ToDo } from './components/ToDo'
 
 function App() {
 
@@ -13,8 +14,15 @@ function App() {
         <AddTask taskList1={taskList} setTaskList={setTaskList}/>
         <p className='text-xl'>to add a new task</p>
       </div>
-
       
+      <div> 
+        <h2 className='bg-gray-300 ml-6  mt-4 text-xl font-semibold w-3/4 max-w-lg py-2 px-2'>To-Do:</h2>
+        {taskList.map((task, index) =>
+          <>
+            <ToDo key={index} task={task}/> 
+          </>
+        )}
+      </div>
     </>
   )
 }
