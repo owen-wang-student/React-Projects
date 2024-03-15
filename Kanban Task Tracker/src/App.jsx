@@ -18,7 +18,7 @@ function App() {
       <div> 
         <h2 className='bg-gray-300 ml-6  mt-4 text-xl font-semibold w-3/4 max-w-lg py-2 px-2'>To-Do:</h2>
         {taskList.map((task, index) =>
-            <ToDo key={index} task={task}/> 
+            <ToDo key={index} task={task} index={index} taskList={taskList} setTaskList={setTaskList}/> 
         )}
       </div>
     </>
