@@ -5,6 +5,7 @@ export const EditTask = ({task, index, taskList, setTaskList}) => {
     const [editModal, setEditModal] = useState(false)
     const [projectName, setProjectName] = useState("")
     const [taskDescription, setTaskDescription] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
 
     useEffect(() => {
         setProjectName(task.projectName)
@@ -13,10 +14,15 @@ export const EditTask = ({task, index, taskList, setTaskList}) => {
 
     const handleUpdate = (e) => {
         e.preventDefault()
-        let taskIndex = taskList.indexOf(task)
-        taskList.splice(taskIndex, 1)
-        setTaskList([...taskList, {projectName, taskDescription}])
-        setEditModal(false)
+        if(!projectName){ // returns false if the for non-empty string
+            setErrorMessage("Enter project name to continue")
+        }else{
+            let taskIndex = taskList.indexOf(task)
+            taskList.splice(taskIndex, 1)
+            setTaskList([...taskList, {projectName, taskDescription}])
+            setEditModal(false)
+            setErrorMessage("")
+        }
     }
 
     const handleInput = (e) => {
@@ -24,6 +30,9 @@ export const EditTask = ({task, index, taskList, setTaskList}) => {
         const value = e.target.value 
         if(name === "pn"){
             setProjectName(value)
+        }
+        if(name === "pn" && name === ""){
+            setErrorMessage("Enter project name to continue")
         }
         if(name === "td"){
             setTaskDescription(value)
@@ -58,7 +67,7 @@ export const EditTask = ({task, index, taskList, setTaskList}) => {
                                     </label>
 
                                     <input 
-                                        className='w-full bg-gray-200 text-gray-700 border px-3 py-2.5 mb-5 leading-tight focus:outline-none focus:bg-white'
+                                        className='w-full bg-gray-200 text-gray-700 border px-3 py-2.5 leading-tight focus:outline-none focus:bg-white'
                                         id='project-name'
                                         type='text'
                                         placeholder={'Project name'}
@@ -67,6 +76,7 @@ export const EditTask = ({task, index, taskList, setTaskList}) => {
                                         onChange={handleInput}
                                         required
                                     />
+                                    <p className='text-red-500 text-center mt-2 mb-5'>{errorMessage}</p>
                                 </div>
 
                                 <div>

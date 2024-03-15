@@ -5,13 +5,20 @@ export const AddTask = ({taskList1, setTaskList}) => {
     const [addModal, setAddModal] = useState(false)
     const [projectName, setProjectName] = useState("")
     const [taskDescription, setTaskDescription] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
 
     const handleAdd = (e) => {
         e.preventDefault()
-        setTaskList([...taskList1, {projectName, taskDescription}])
-        setAddModal(false)
-        setProjectName("")
-        setTaskDescription("")
+        console.log(!projectName)
+        if(!projectName){
+            setErrorMessage("Enter project name to continue")
+        }else{
+            setTaskList([...taskList1, {projectName, taskDescription}])
+            setAddModal(false)
+            setProjectName("")
+            setTaskDescription("")
+            setErrorMessage("")
+        }
     }
 
     const handleInput = (e) => {
@@ -19,6 +26,10 @@ export const AddTask = ({taskList1, setTaskList}) => {
         const value = e.target.value 
         if(name === "pn"){
             setProjectName(value)
+            setErrorMessage("")
+        }
+        if(name === "pn" && value === ""){
+            setErrorMessage("Enter project name to continue")
         }
         if(name === "td"){
             setTaskDescription(value)
@@ -60,7 +71,7 @@ export const AddTask = ({taskList1, setTaskList}) => {
                                     </label>
 
                                     <input 
-                                        className='w-full bg-gray-200 text-gray-700 border px-3 py-2.5 mb-5 leading-tight focus:outline-none focus:bg-white'
+                                        className='w-full bg-gray-200 text-gray-700 border px-3 py-2.5 leading-tight focus:outline-none focus:bg-white'
                                         id='project-name'
                                         type='text'
                                         placeholder='Project name'
@@ -69,6 +80,7 @@ export const AddTask = ({taskList1, setTaskList}) => {
                                         onChange={handleInput}
                                         required
                                     />
+                                    <p className='text-red-500 text-center mt-2 mb-5'>{errorMessage}</p>
                                 </div>
 
                                 <div>
