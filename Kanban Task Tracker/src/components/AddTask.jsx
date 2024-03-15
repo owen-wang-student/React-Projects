@@ -29,7 +29,7 @@ export const AddTask = ({taskList1, setTaskList}) => {
             setErrorMessage("")
         }
         if(name === "pn" && value === ""){
-            setErrorMessage("Enter project name to continue")
+            setErrorMessage("Enter project name to continue")   
         }
         if(name === "td"){
             setTaskDescription(value)
