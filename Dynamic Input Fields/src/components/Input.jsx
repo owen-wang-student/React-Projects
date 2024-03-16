@@ -8,9 +8,13 @@ export const Input = () => {
         email: "",
         dob: "",
         gender: "",
-        prompt1: "",
-        answer1: ""
     })
+
+    const [prompts, setPrompts] = useState([{
+        prompt: "",
+        answer: "",
+        timestamp: new Date().getTime()
+    }])
 
     const handleInput = (e) => {
         const {name, value} = e.target
@@ -20,7 +24,26 @@ export const Input = () => {
         })
     }
 
-    console.log(userInfo)
+    const handlePrompt = (e, i) => {
+        const {name, value} = e.target
+        let newPrompts = [...prompts]
+        newPrompts[i][name] = value
+        setPrompts(newPrompts)
+    }
+
+    const handleAddPrompt = () => {
+        setPrompts([...prompts, {
+            prompt: "",
+            answer: "",
+            timestamp: new Date().getTime()
+        }])
+    }
+
+    const handleDeletePrompt = (i) => {
+        let tempPrompts = [...prompts]
+        tempPrompts.splice(i, 1)
+        setPrompts(tempPrompts)
+    }
 
     return(
         <>
@@ -89,30 +112,56 @@ export const Input = () => {
                     </div>
                 </fieldset>
 
-                <fieldset className="flex flex-col border px-4 py-1 gap-3 mt-2 mb-10">
+                <fieldset className="flex flex-col border px-4 py-1 mt-2 mb-10">
                     <legend className="text-2xl font-semibold py-1">Prompts</legend>
-                    <div className='flex flex-col w-full'>
-                        <label className="text-2xl font-semibold pt-1">Select a prompt</label>
-                        <select className="border rounded text-md leading-tight py-2 px-3 my-3 focus:outline-indigo-200" id="prompt1" name="prompt1" onChange={handleInput}>
-                            <option >Select</option>
-                            <option value="Dating me is like...">Dating me is like...</option>
-                            <option value="Fact about me that surprises people:">Fact about me that surprises people:</option>
-                            <option value="I want someone who...">I want someone who...</option>
-                            <option value="I spend most of my money on:">I spend most of my money on:</option>
-                            <option value="The most spontaneous thing I've done">The most spontaneous thing I've done</option>
-                            <option value="We're the same type of weird if...">We're the same type of weird if...</option>
-                        </select>
-                        
-                        <textarea 
-                            className='border px-3 py-2 mt-2 mb-4'
-                            id="answer1"
-                            name="answer1"
-                            rows={5}
-                            placeholder="Let your true colors shine through"
-                            onChange={handleInput}
-                        >  
-                        </textarea>
+
+                    {prompts.map((prompt, i) => (
+                        <div key={prompt.timestamp} className='flex flex-col w-full'>
+                            <div className="flex flex-row justify-between">
+                                <label className="text-2xl font-semibold pt-1">Select a prompt</label>
+                                <div className="flex flex-col align-center justify-center">
+                                    <button 
+                                        className="bg-red-400 hover:opacity-70 text-white text-md font-semibold rounded-lg px-3 pb-1" 
+                                        onClick={() => handleDeletePrompt(i)}
+                                    >
+                                        x
+                                    </button>
+                                </div>
+                            </div>
+
+                            <select className="border rounded text-md leading-tight py-2 px-3 my-3 focus:outline-indigo-200" id="prompt" name="prompt" onChange={(e) => handlePrompt(e, i)}>
+                                <option >Select</option>
+                                <option value="Dating me is like...">Dating me is like...</option>
+                                <option value="Fact about me that surprises people:">Fact about me that surprises people:</option>
+                                <option value="I want someone who...">I want someone who...</option>
+                                <option value="I spend most of my money on:">I spend most of my money on:</option>
+                                <option value="The most spontaneous thing I've done">The most spontaneous thing I've done</option>
+                                <option value="We're the same type of weird if...">We're the same type of weird if...</option>
+                            </select>
+                            
+                            <textarea 
+                                className='border px-3 py-2 mt-2 mb-4'
+                                id="answer"
+                                name="answer"
+                                rows={5}
+                                placeholder="Let your true colors shine through"
+                                onChange={(e) => handlePrompt(e, i)}
+                            >  
+                            </textarea>
+                        </div>
+                    ))}
+
+                    <div className='flex flex-row w-full justify-center align-center'>
+                        <button 
+                            className="bg-indigo-400 hover:opacity-70 text-white text-md font-semibold rounded-lg py-1 px-2"
+                            type="button"
+                            onClick={handleAddPrompt}
+                        >
+                            Add Prompt
+                        </button>
                     </div>
+
+
                 </fieldset>
             </form>
         </>
