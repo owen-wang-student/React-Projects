@@ -18,8 +18,13 @@ export const EditTask = ({task, index, taskList, setTaskList}) => {
             setErrorMessage("Enter project name to continue")
         }else{
             let taskIndex = taskList.indexOf(task)
-            taskList.splice(taskIndex, 1)
-            setTaskList([...taskList, {projectName, taskDescription}])
+            taskList.splice(taskIndex, 1, { //index, amount remove, replacement
+                projectName: projectName, taskDescription: taskDescription
+            }) 
+            localStorage.setItem("taskList", JSON.stringify(taskList))
+            window.location.reload()
+            
+            // setTaskList([...taskList, {projectName, taskDescription}])
             setEditModal(false)
             setErrorMessage("")
         }

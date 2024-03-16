@@ -13,7 +13,13 @@ export const AddTask = ({taskList1, setTaskList}) => {
         if(!projectName){
             setErrorMessage("Enter project name to continue")
         }else{
-            setTaskList([...taskList1, {projectName, taskDescription}])
+            let tempList = taskList1
+            tempList.push({projectName, taskDescription})
+
+            localStorage.setItem("taskList", JSON.stringify(tempList)) //name, location
+            window.location.reload() // reload window to include new local storage data 
+            
+            // setTaskList([...taskList1, {projectName, taskDescription}])
             setAddModal(false)
             setProjectName("")
             setTaskDescription("")
@@ -71,7 +77,7 @@ export const AddTask = ({taskList1, setTaskList}) => {
                                     </label>
 
                                     <input 
-                                        className='w-full bg-gray-200 text-gray-700 border px-3 py-2.5 leading-tight focus:outline-none focus:bg-white'
+                                        className='w-full bg-gray-200 text-gray-700 border px-3 py-3 leading-tight focus:outline-none focus:bg-white'
                                         id='project-name'
                                         type='text'
                                         placeholder='Project name'
