@@ -14,7 +14,7 @@ export const AddTask = ({taskList1, setTaskList}) => {
             setErrorMessage("Enter project name to continue")
         }else{
             let tempList = taskList1
-            tempList.push({projectName, taskDescription})
+            tempList.push({projectName, taskDescription, duration: 0})
 
             localStorage.setItem("taskList", JSON.stringify(tempList)) //name, location
             window.location.reload() // reload window to include new local storage data 

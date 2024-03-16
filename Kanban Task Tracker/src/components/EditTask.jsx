@@ -19,7 +19,7 @@ export const EditTask = ({task, index, taskList, setTaskList}) => {
         }else{
             let taskIndex = taskList.indexOf(task)
             taskList.splice(taskIndex, 1, { //index, amount remove, replacement
-                projectName: projectName, taskDescription: taskDescription
+                projectName: projectName, taskDescription: taskDescription, duration: task.duration
             }) 
             localStorage.setItem("taskList", JSON.stringify(taskList))
             window.location.reload()
