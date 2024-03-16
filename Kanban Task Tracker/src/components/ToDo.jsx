@@ -3,7 +3,7 @@ import { EditTask } from './EditTask'
 
 export const ToDo = ({task, index, taskList, setTaskList}) => {
 
-    const [time, setTime] = useState(0)
+    const [time, setTime] = useState(task.duration)
     const [running, setRunning] = useState(false)
 
     useEffect(() => {
@@ -23,6 +23,30 @@ export const ToDo = ({task, index, taskList, setTaskList}) => {
         const [...newTasks] = taskList; 
         newTasks.splice(removeIndex, 1) // removes one item at the index 
         setTaskList(newTasks);
+    }
+
+    const handleStop = () => {
+        setRunning(false)
+        let timeIndex = taskList.indexOf(task)
+        taskList.splice(timeIndex, 1, {
+            projectName: task.projectName,
+            taskDescription: task.taskDescription,
+            duration: time
+        })
+        localStorage.setItem("taskList", JSON.stringify(taskList))
+        window.location.reload()
+    }
+
+    const handleReset = () => {
+        setTime(0)
+        let timeIndex = taskList.indexOf(task)
+        taskList.splice(timeIndex, 1, {
+            projectName: task.projectName,
+            taskDescription: task.taskDescription,
+            duration: 0
+        })
+        localStorage.setItem("taskList", JSON.stringify(taskList))
+        window.location.reload()
     }
 
     return(
@@ -50,14 +74,14 @@ export const ToDo = ({task, index, taskList, setTaskList}) => {
                     <div className='flex flex-row justify-evenly gap-2'>
                         {running ? (
                             <>
-                                <button className="border rounded-lg px-3 py-1" onClick={() => setRunning(false)}>Stop</button>
+                                <button className="border rounded-lg px-3 py-1" onClick={handleStop}>Stop</button>
                             </>
                         ) : (
                             <>
                                 <button className="border rounded-lg px-3 py-1" onClick={() => setRunning(true)}>Start</button>
                             </>
                         )}
-                        <button className="border rounded-lg px-3 py-1" onClick={() => setTime(0)}>Reset</button>
+                        <button className="border rounded-lg px-3 py-1" onClick={handleReset}>Reset</button>
                     </div>
                 </div>
 
