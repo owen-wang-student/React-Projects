@@ -1,10 +1,24 @@
 import { useState, useEffect } from 'react'
+import { useDrag } from 'react-dnd'
 import { EditTask } from './EditTask'
 
 export const ToDo = ({task, index, taskList, setTaskList}) => {
 
     const [time, setTime] = useState(task.duration)
     const [running, setRunning] = useState(false)
+
+    const [{isDragging}, drag] = useDrag(() => ({
+        type: "todo", 
+        item: {
+            id: index,
+            projectName: task.projectName,
+            taskDescription: task.taskDescription,
+            duration: task.duration
+        },
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging(),
+        })
+    }))
 
     useEffect(() => {
         let interval
@@ -52,7 +66,7 @@ export const ToDo = ({task, index, taskList, setTaskList}) => {
 
     return(
         <>
-            <div className="flex flex-col items-start justify-start bg-white my-4 ml-6 py-4 px-6 w-3/4 max-w-lg">
+            <div className="flex flex-col items-start justify-start bg-white my-4 py-4 px-6 w-3/4 max-w-lg" ref={drag}>
                 <div className="flex flex-row justify-between items-center w-full">
                     <p className="font-semibold text-xl uppercase">
                         {task.projectName}
