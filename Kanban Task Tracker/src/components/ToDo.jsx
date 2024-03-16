@@ -19,10 +19,11 @@ export const ToDo = ({task, index, taskList, setTaskList}) => {
       }, [running])
 
     const handleDelete = () => {
-        let removeIndex = index
+        let removeIndex = taskList.indexOf(task)
         const [...newTasks] = taskList; 
         newTasks.splice(removeIndex, 1) // removes one item at the index 
-        setTaskList(newTasks);
+        localStorage.setItem("taskList", JSON.stringify(newTasks))
+        window.location.reload()
     }
 
     const handleStop = () => {
